@@ -1,0 +1,6 @@
+#ignore the specified folders
+
+
+#ignore the specified files
+my_cool_project.pro
+my_cool_project.pro.user
