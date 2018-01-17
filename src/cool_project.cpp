@@ -14,14 +14,14 @@
 using namespace std;
 
 //global constants
-const int INPUT_SIZES[] = {10, 100, 1000};
+const int INPUT_SIZES[] = {1000, 10000, 100000};
 const int SIZES = sizeof INPUT_SIZES / sizeof INPUT_SIZES[0];
 
 //function prototypes
 void insertionSort(Vector<int> &vec);
 void initRandomVec(Vector<int> &vec, int size);
-
-
+void quickSort(Vector<int> &vec, int start, int end);
+int partition(Vector<int> &vec, int start, int end);
 int main() {
     //record a list of observed running time with a set of specifed size
     Vector<double> elapsedTime;
@@ -35,7 +35,7 @@ int main() {
         //sort the vector
         double start = double(clock()) / CLOCKS_PER_SEC;// CPU clock cycles / (clock cycle / second) = seconds
 
-        insertionSort(vec);
+        quickSort(vec, 0, vec.size()-1);
         double end = double(clock()) / CLOCKS_PER_SEC;
         double elapsed = end - start;//compute the elapsed time
         elapsedTime.add(elapsed);
@@ -72,7 +72,36 @@ void insertionSort(Vector<int> &vec) {
 void initRandomVec(Vector<int> &vec, int size) {
     //get a list of random elements
     for(int i=0; i<size; i++) {
-        vec.add(randomInteger(1, 100));
+        vec.add(randomInteger(0, 9999));
     }
 }
 
+void quickSort(Vector<int> &vec, int start, int end) {
+    if(start >= end) return;
+    else {
+        int boundary = partition(vec, start, end);
+        quickSort(vec, start, boundary - 1);
+        quickSort(vec, boundary + 1, end);
+    }
+}
+
+int partition(Vector<int> &vec, int start, int end) {
+    int pivot = vec[start];
+    int lh = start + 1;
+    int rh = end;
+
+    while(true) {//doesn't conincidence
+        while(lh<rh && vec[rh] > pivot) rh--;
+        while(lh<rh && vec[rh] <= pivot) lh++;
+        if(lh == rh) break;
+        //swap the elements
+        int tmp = vec[rh];
+        vec[rh] = vec[lh];
+        vec[lh] = tmp;
+    }
+    if(pivot<=vec[lh]) return start;
+    //homing the pivot
+    vec[start] = vec[lh];
+    vec[lh] = pivot;
+    return lh;
+}
