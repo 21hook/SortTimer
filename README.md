@@ -11,4 +11,12 @@ A program displays a table of observed running time for specified sorting algori
 Evaluate the time performance more than one time with each time on a given random vector of a specifeid times.
 Experiment logics, APIs, code styles for global constants, performance arguments.
 
+### Algorithm performace analysis
+Evaluation arguments:
+  * Expected ruuning time
+  * Worst-case running time
+  * Average-case running time
+  
+
+
   
